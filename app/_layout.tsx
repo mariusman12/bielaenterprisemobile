@@ -6,6 +6,9 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import '@/global.css';
+
 export const unstable_settings = {
   anchor: '(tabs)',
 };
@@ -123,7 +126,9 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <PreviewErrorBoundary>
+    
+    <GluestackUIProvider mode="dark">
+      <PreviewErrorBoundary>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -132,5 +137,7 @@ export default function RootLayout() {
         <StatusBar style="auto" />
       </ThemeProvider>
     </PreviewErrorBoundary>
+    </GluestackUIProvider>
+  
   );
 }
