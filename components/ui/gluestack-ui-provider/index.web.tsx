@@ -20,7 +20,6 @@ export const useSafeLayoutEffect =
   typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 export function GluestackUIProvider({
-  mode = 'light',
   ...props
 }: {
   mode?: ModeType;
@@ -41,29 +40,14 @@ export function GluestackUIProvider({
 
   setFlushStyles(cssVariablesWithMode);
 
-  const handleMediaQuery = React.useCallback((e: MediaQueryListEvent) => {
-    script(e.matches ? 'dark' : 'light');
-  }, []);
-
   useSafeLayoutEffect(() => {
-    if (mode !== 'system') {
-      const documentElement = document.documentElement;
-      if (documentElement) {
-        documentElement.classList.add(mode);
-        documentElement.classList.remove(mode === 'light' ? 'dark' : 'light');
-        documentElement.style.colorScheme = mode;
-      }
+    const documentElement = document.documentElement;
+    if (documentElement) {
+      documentElement.classList.add('light');
+      documentElement.classList.remove('dark');
+      documentElement.style.colorScheme = 'light';
     }
-  }, [mode]);
-
-  useSafeLayoutEffect(() => {
-    if (mode !== 'system') return;
-    const media = window.matchMedia('(prefers-color-scheme: dark)');
-
-    media.addListener(handleMediaQuery);
-
-    return () => media.removeListener(handleMediaQuery);
-  }, [handleMediaQuery]);
+  }, []);
 
   useSafeLayoutEffect(() => {
     if (typeof window !== 'undefined') {
@@ -85,7 +69,7 @@ export function GluestackUIProvider({
       <script
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: `(${script.toString()})('${mode}')`,
+          __html: `(${script.toString()})()`,
         }}
       />
       <OverlayProvider>

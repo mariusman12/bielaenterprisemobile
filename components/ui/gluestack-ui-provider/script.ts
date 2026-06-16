@@ -1,18 +1,9 @@
-export const script = (mode: string) => {
-  const documentElement = document.documentElement;
-
-  function getSystemColorMode() {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
-  }
-
+export const script = () => {
   try {
-    const isSystem = mode === 'system';
-    const theme = isSystem ? getSystemColorMode() : mode;
-    documentElement.classList.remove(theme === 'light' ? 'dark' : 'light');
-    documentElement.classList.add(theme);
-    documentElement.style.colorScheme = theme;
+    const documentElement = document.documentElement;
+    documentElement.classList.remove('dark');
+    documentElement.classList.add('light');
+    documentElement.style.colorScheme = 'light';
   } catch (e) {
     console.error(e);
   }
