@@ -26,4 +26,5 @@ export function GluestackUIProvider({
       </OverlayProvider>
     </View>
   );
+  
 }
